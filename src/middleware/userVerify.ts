@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import { Exhibitor } from "../app/modules/exhibitor/exhibitor.model";
+import { findOneById } from "../app/modules/user/exhibitor/exhibitor.repository";
 
 const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -16,14 +16,9 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
       _id: string;
     };
 
-    const { _id } = decoded;
-
-    const exhibitor = await Exhibitor.findOne({ _id: req.body });
+    const exhibitor = await findOneById(decoded._id);
 
     if (exhibitor) {
-      if (exhibitor.userId.toString() !== _id) {
-        return res.status(403).send({ message: "Unauthorized" });
-      }
       next();
     } else {
       return res.status(403).send({ message: "Unauthorized" });

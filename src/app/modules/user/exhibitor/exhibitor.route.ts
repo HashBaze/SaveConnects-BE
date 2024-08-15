@@ -7,12 +7,12 @@ import {
   getExhibitorProfile,
 } from "./exhibitor.controller";
 
-import verifyToken from "../../../middleware/userVerify";
+import verifyToken from "../../../../middleware/userVerify";
 
 const exhibitorRouter = express.Router();
 
 exhibitorRouter.post("/register", registerExhibitor);
-exhibitorRouter.post("/profile", getExhibitorProfile);
+exhibitorRouter.get("/profile", getExhibitorProfile);
 exhibitorRouter.put("/edit", verifyToken, editExhibitorProfile);
 exhibitorRouter.put("/cover-image", verifyToken, editExhibitorCoverImage);
 exhibitorRouter.put("/gallery", verifyToken, editExhibitorGallery);

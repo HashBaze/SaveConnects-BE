@@ -1,5 +1,6 @@
-import { Schema, model } from "mongoose";
+import { Schema } from "mongoose";
 import { IExhibitor } from "./exhibitor.interface";
+import { User } from "../user.model";
 
 const ExhibitorSchema = new Schema<IExhibitor>(
   {
@@ -17,6 +18,10 @@ const ExhibitorSchema = new Schema<IExhibitor>(
     companyCategory: {
       type: String,
       required: true,
+      trim: true,
+    },
+    salesPersonName: {
+      type: String,
       trim: true,
     },
     coverImage: {
@@ -43,11 +48,13 @@ const ExhibitorSchema = new Schema<IExhibitor>(
       type: [String],
       trim: true,
     },
-    userId: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-      unique: true,
+    attendees: {
+      type: [String],
+      ref: "Attendee",
+    },
+    isEnabled: {
+      type: Boolean,
+      default: true,
     },
   },
   {
@@ -55,4 +62,4 @@ const ExhibitorSchema = new Schema<IExhibitor>(
   }
 );
 
-export const Exhibitor = model<IExhibitor>("Exhibitor", ExhibitorSchema);
+export const Exhibitor = User.discriminator<IExhibitor>("Exhibitor", ExhibitorSchema);

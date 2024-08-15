@@ -21,6 +21,7 @@ const userScema = new Schema<IUser>(
   },
   {
     timestamps: true,
+    discriminatorKey: "role",
   }
 );
 

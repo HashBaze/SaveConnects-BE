@@ -1,14 +1,17 @@
-import { Types } from "mongoose";
+import { IUser } from "../user.interface";
 
-export interface IExhibitor {
+export interface IExhibitor extends IUser {
+  _id: string;
   companyName: string;
   companyNameKey: string;
   companyCategory: string;
+  salesPersonName: string;
   coverImage: string;
   phoneNumber: string;
   address: string;
   website: string;
   about: string;
   gallery: string[];
-  userId: Types.ObjectId;
+  attendees: string[];
+  isEnabled: boolean;
 }
