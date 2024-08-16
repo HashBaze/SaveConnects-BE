@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt, { Secret } from "jsonwebtoken";
-import { findOne } from "./user.repository";
+import { findOne } from "./user.db.utills";
 
 require("dotenv").config();
 

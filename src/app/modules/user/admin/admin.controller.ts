@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { createAdmin, findOne } from "./admin.repository";
+import { createAdmin, findAdmin } from "./admin.db.utills";
 import {
-  findOneByEmail,
-  updateStatus,
-} from "../exhibitor/exhibitor.repository";
+  findExhibitor,
+  updateExhibitor,
+} from "../exhibitor/exhibitor.db.utills";
 
 // create admin
 export const registerAdmin = async (req: Request, res: Response) => {
@@ -11,10 +11,10 @@ export const registerAdmin = async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
     // Check if the admin already exists
-    const existAdmin = await findOne(email);
+    const existAdmin = await findAdmin({email: email});
     if (existAdmin) {
       return res.status(400).json({
-        message: "User already exist",
+        message: "Admin already exist",
       });
     }
 
@@ -43,7 +43,7 @@ export const changeExhibitorStatus = async (req: Request, res: Response) => {
     const { email, status } = req.body;
 
     // check if the exhibitor exists
-    const existExhibitor = await findOneByEmail(email);
+    const existExhibitor = await findExhibitor({ email: email });
     if (!existExhibitor) {
       return res.status(404).json({
         message: "Exhibitor not found",
@@ -51,7 +51,7 @@ export const changeExhibitorStatus = async (req: Request, res: Response) => {
     }
 
     // update the exhibitor status
-    const isUpdate = await updateStatus(status, existExhibitor);
+    const isUpdate = await updateExhibitor(existExhibitor, { isEnabled: status });
     if (!isUpdate) {
       return res.status(500).json({
         message: "Error while updating exhibitor status",

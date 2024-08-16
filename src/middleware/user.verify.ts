@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import { findOneById } from "../app/modules/user/exhibitor/exhibitor.repository";
+import { findExhibitor } from "../app/modules/user/exhibitor/exhibitor.db.utills";
 
-const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
+const verifyUserToken = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { authorization } = req.headers;
     if (!authorization) {
@@ -16,7 +16,7 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
       _id: string;
     };
 
-    const exhibitor = await findOneById(decoded._id);
+    const exhibitor = await findExhibitor({_id: decoded._id});
 
     if (exhibitor) {
       next();
@@ -28,4 +28,4 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export default verifyToken;
+export default verifyUserToken;

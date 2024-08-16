@@ -2,6 +2,7 @@ import { IAdmin } from "./admin.interface";
 import { Admin } from "./admin.model";
 import bcrypt from "bcrypt";
 
+// create admin
 const createAdmin = async (
   email: string,
   password: string
@@ -20,9 +21,10 @@ const createAdmin = async (
   }
 };
 
-const findOne = async (email: string): Promise<IAdmin | null> => {
+// find admin
+const findAdmin = async (key: Partial<IAdmin>): Promise<IAdmin | null> => {
   try {
-    const admin = (await Admin.findOne({ email }).select(
+    const admin = (await Admin.findOne(key).select(
       "-__v -createdAt -updatedAt"
     )) as IAdmin | null;
     return admin;
@@ -32,4 +34,4 @@ const findOne = async (email: string): Promise<IAdmin | null> => {
   }
 };
 
-export { createAdmin, findOne };
+export { createAdmin, findAdmin };
