@@ -22,7 +22,7 @@ const createExhibitor = async (
   password: string,
   companyName: string,
   companyCategory: string
-): Promise<boolean> => {
+): Promise<IExhibitor | null> => {
   try {
     // Generate the unique companyNameKey
     const companyNameKey = await generateUniqueKey(companyName);
@@ -36,10 +36,10 @@ const createExhibitor = async (
       companyCategory,
     });
     await newExhibitor.save();
-    return true;
+    return newExhibitor;
   } catch (error) {
     console.error("Error creating exhibitor(exhibitor.repo)-->:", error);
-    return false;
+    return null;
   }
 };
 

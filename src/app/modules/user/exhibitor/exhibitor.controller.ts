@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import jwt from "jsonwebtoken";
+import jwt, { Secret } from "jsonwebtoken";
 import {
   createExhibitor,
   findExhibitor,
   updateExhibitor,
 } from "./exhibitor.db.utills";
-import { IAttendee } from "./exhibitor.interface";
+import { IAttendee, IExhibitor } from "./exhibitor.interface";
 
 require("dotenv").config();
 
@@ -23,20 +23,31 @@ export const registerExhibitor = async (req: Request, res: Response) => {
     }
 
     // Create a new exhibitor
-    const isCreate = await createExhibitor(
+    const createdExhibitor: IExhibitor | null = await createExhibitor(
       email,
       password,
       companyName,
       companyCategory
     );
-    if (!isCreate) {
+    if (!createdExhibitor) {
       return res.status(500).json({
         message: "Error while creating exhibitor",
       });
     }
 
+    const token = jwt.sign(
+      { _id: createdExhibitor._id, role: createdExhibitor.role },
+      process.env.JWT_SECRET as Secret,
+      {
+        expiresIn: "1d",
+      }
+    );
+
     return res.status(201).json({
       message: "Exhibitor registered successfully",
+      token,
+      role: createdExhibitor.role,
+      companyKey: createdExhibitor.companyNameKey,
     });
   } catch (error: any) {
     console.error("Error while creating exhibitor -->", error);
