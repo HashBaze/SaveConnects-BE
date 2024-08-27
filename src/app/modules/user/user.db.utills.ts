@@ -1,9 +1,9 @@
 import { IUser } from "./user.interface";
 import { User } from "./user.model";
 
-const findOne = async (email: string): Promise<IUser | null> => {
+const findOne = async (key: Partial<IUser>): Promise<IUser | null> => {
     try {
-        const user = (await User.findOne({ email })) as IUser | null;
+        const user = (await User.findOne(key)) as IUser | null;
         return user;
     } catch (error) {
         console.error("Error finding user:", error);
@@ -11,4 +11,19 @@ const findOne = async (email: string): Promise<IUser | null> => {
     }
 };
 
-export { findOne }
+const updateUser = async (
+    key: Partial<IUser>,
+    update: Partial<IUser>
+): Promise<IUser | null> => {
+    try {
+        const user = (await User.findOneAndUpdate(key, update, {
+            new: true,
+        })) as IUser | null;
+        return user;
+    } catch (error) {
+        console.error("Error updating user:", error);
+        return null;
+    }
+};
+
+export { findOne, updateUser }
