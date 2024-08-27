@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt, { Secret } from "jsonwebtoken";
 import { findOne } from "./user.db.utills";
+import { findExhibitor } from "../user/exhibitor/exhibitor.db.utills";
+import { IExhibitor } from "./exhibitor/exhibitor.interface";
 
 require("dotenv").config();
 
@@ -21,6 +23,17 @@ export const loginUser = async (req: Request, res: Response) => {
             expiresIn: "1d",
           }
         );
+        if (user.role === "Exhibitor") {
+          const exhibitor : IExhibitor | null = await findExhibitor({ _id: user._id });
+          if (exhibitor) {
+            return res.status(200).json({ 
+              message: "Login successful",
+              token,
+              role: user.role,
+              companyKey: exhibitor.companyNameKey,
+            });
+          }
+        }
         return res.status(200).json({
           message: "Login successful",
           token,
