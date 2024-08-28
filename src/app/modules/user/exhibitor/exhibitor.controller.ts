@@ -6,6 +6,7 @@ import {
   updateExhibitor,
 } from "./exhibitor.db.utills";
 import { IAttendee, IExhibitor } from "./exhibitor.interface";
+import { sendAttendeeRegistrationEmail } from "../../../../mail/mail.send";
 
 require("dotenv").config();
 
@@ -234,6 +235,8 @@ export const addAttendee = async (req: Request, res: Response) => {
       });
     }
 
+    await sendAttendeeRegistrationEmail(email, exhibitor);
+
     return res.status(200).json({
       messsage: "Exhibitor attendee added successfully",
     });
@@ -355,6 +358,30 @@ export const editExhibitorGallery = async (req: Request, res: Response) => {
     });
   } catch (error: any) {
     console.error("Error while editing exhibitor gallery -->", error);
+    return res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+// Check companyNamekey exists
+export const checkCompanyNameKey = async (req: Request, res: Response) => {
+  try {
+    const { companyNameKey } = req.body;
+
+    // Check if the exhibitor exists
+    const exhibitor = await findExhibitor({ companyNameKey: companyNameKey });
+    if (!exhibitor) {
+      return res.status(404).json({
+        message: "Exhibitor not found",
+      });
+    }
+
+    return res.status(200).json({
+      message: "Company name key exists",
+    });
+  } catch (error: any) {
+    console.error("Error while checking company name key -->", error);
     return res.status(500).json({
       message: error.message,
     });

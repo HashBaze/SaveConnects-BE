@@ -1,7 +1,9 @@
 import transporter from "./mail.config";
+import { IExhibitor } from "../app/modules/user/exhibitor/exhibitor.interface";
 import {
   PASSWORD_RESET_REQUEST_TEMPLATE,
   PASSWORD_RESET_SUCCESS_TEMPLATE,
+  ATTENDEE_REGISTRATION_TEMPLATE,
 } from "./mail.templates";
 
 export const sendPasswordResetEmail = async (
@@ -40,3 +42,20 @@ export const sendPasswordResetSuccessEmail = async (email: string) => {
     throw new Error(`Error sending password reset success email: ${error}`);
   }
 }
+
+export const sendAttendeeRegistrationEmail = async (email: string, exhibitor: IExhibitor) => {
+  const mailOptions = {
+    from: `"${exhibitor.companyName}" <${exhibitor.email}>`,
+    to: email,
+    subject: "Attendee Registration",
+    html: ATTENDEE_REGISTRATION_TEMPLATE(exhibitor),
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log(`Attendee registration email sent to ${email}`);
+  } catch (error) {
+    console.error(`Error sending attendee registration email to ${email}:`, error);
+    throw new Error(`Error sending attendee registration email: ${error}`);
+  }
+};
