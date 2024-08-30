@@ -3,6 +3,7 @@ import express, { Application } from "express";
 import userRoute from "./app/modules/user/user.route";
 import exhibitorRoute from "./app/modules/user/exhibitor/exhibitor.route";
 import adminRoute from "./app/modules/user/admin/admin.route";
+import mailRoute from "./mail/mail.route";
 
 const app: Application = express();
 
@@ -23,5 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/user", userRoute);
 app.use("/admin", adminRoute);
 app.use("/exhibitor", exhibitorRoute);
+
+app.use("/mail", mailRoute);
 
 export default app;

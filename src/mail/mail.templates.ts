@@ -86,8 +86,12 @@ export const ATTENDEE_REGISTRATION_TEMPLATE = (exhibitor: IExhibitor) => `
     <div style="overflow-x: auto;">
       <table style="width: 100%; margin-bottom: 20px;">
         <tr>
-          <td style="font-weight: bold; width: 30%;">Company Name:</td>
+          <td style="font-weight: bold; width: 50%;">Company Name:</td>
           <td>${exhibitor.companyName}</td>
+        </tr>
+        <tr>
+          <td style="font-weight: bold;">Email :</td>
+          <td>${exhibitor.email}</td>
         </tr>
         <tr>
           <td style="font-weight: bold;">Address:</td>
@@ -113,3 +117,35 @@ export const ATTENDEE_REGISTRATION_TEMPLATE = (exhibitor: IExhibitor) => `
 </body>
 </html>
 `;
+
+export const INQUIRY_EMAIL_TEMPLATE = (
+  name: string, 
+  message: string, 
+  fromEmail: string
+) => `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Inquiry from ${name}</title>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+  <div style="background: linear-gradient(to right, #1A2B4C, #5E6A81); padding: 20px; text-align: center;">
+    <h1 style="color: white; margin: 0;">You have a new inquiry</h1>
+  </div>
+  <div style="background-color: #f9f9f9; padding: 20px; border-radius: 0 0 5px 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+    <p>Hello,</p>
+    <p>You have received a new inquiry from <strong>${name}</strong>.</p>
+    <p><strong>Inquiry Person Email:</strong> ${fromEmail}</p>
+    <p><strong>Inquiry Message:</strong></p>
+    <p>${message}</p>
+  </div>
+  <div style="text-align: center; margin-top: 20px; color: #888; font-size: 0.8em;">
+    <p>You can reply to this email to get in touch with the sender.</p>
+    <p>Powered by SaveConnects Team</p>
+  </div>
+</body>
+</html>
+`;
+

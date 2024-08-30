@@ -379,6 +379,7 @@ export const checkCompanyNameKey = async (req: Request, res: Response) => {
 
     return res.status(200).json({
       message: "Company name key exists",
+      data: exhibitor,
     });
   } catch (error: any) {
     console.error("Error while checking company name key -->", error);
