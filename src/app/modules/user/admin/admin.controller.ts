@@ -3,6 +3,7 @@ import { createAdmin, findAdmin } from "./admin.db.utills";
 import {
   findExhibitor,
   updateExhibitor,
+  findAllExhibitors,
 } from "../exhibitor/exhibitor.db.utills";
 
 // create admin
@@ -37,7 +38,23 @@ export const registerAdmin = async (req: Request, res: Response) => {
   }
 };
 
-// change Exhibitor status
+// Get All Exhibitors
+export const getAllExhibitors = async (req: Request, res: Response) => {
+  try {
+    const exhibitors = await findAllExhibitors();
+    return res.status(200).json({
+      message: "Exhibitors fetched successfully",
+      exhibitors,
+    });
+  } catch (error: any) {
+    console.log("Error while fetching exhibitors -->", error);
+    return res.status(500).json({ 
+      message: error.message,
+    });
+  }
+};
+
+// Change Exhibitor status
 export const changeExhibitorStatus = async (req: Request, res: Response) => {
   try {
     const { email, status } = req.body;
