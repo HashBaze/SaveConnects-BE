@@ -58,6 +58,19 @@ const findExhibitor = async (
   }
 };
 
+// get all exhibitors
+const findAllExhibitors = async (): Promise<IExhibitor[] | null> => {
+  try {
+    const exhibitors = await Exhibitor.find().select(
+      "-__v -createdAt -updatedAt"
+    );
+    return exhibitors;
+  } catch (error) {
+    console.error("Error finding exhibitors:", error);
+    return null;
+  }
+};
+
 // update exhibitor
 const updateExhibitor = async (
   exhibitor: IExhibitor,
@@ -81,4 +94,4 @@ const updateExhibitor = async (
   }
 };
 
-export { createExhibitor, findExhibitor, updateExhibitor };
+export { createExhibitor, findExhibitor, updateExhibitor, findAllExhibitors };
