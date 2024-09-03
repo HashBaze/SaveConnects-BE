@@ -9,7 +9,7 @@ on:
 
 jobs:
   deploy_qa:
-    if: github.ref == 'refs/heads/specific_branch'
+    if: github.ref == 'refs/heads/develop-qa'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -25,14 +25,14 @@ jobs:
           script: |
             mkdir -p /home/tishan/apps/save-connects/backend
             cd /home/tishan/apps/save-connects/backend
-            
+
             if [ -d ".git" ]; then
-              git stash
+              git reset --hard HEAD
               git pull origin develop-qa
             else
               git clone -b develop-qa https://github.com/HashBaze/SaveConnects-BE.git .
             fi
-            
+
             npm install --force
             npm run build
 
