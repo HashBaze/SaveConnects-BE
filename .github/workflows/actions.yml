@@ -36,14 +36,14 @@ jobs:
             npm install --force
             npm run build
 
-            pid=$(pm2 pid "save-connects frontend" 2>/dev/null)
+            pid=$(pm2 pid "save-connects backend" 2>/dev/null)
             if [ -n "$pid" ]; then
               echo "Reloading application"
-              pm2 reload "sample frontend"
+              pm2 reload "save-connects backend"
               pm2 save
             else
               echo "New application"
-              pm2 start npm --name "save-connects frontend" -- start
+              pm2 start npm --name "save-connects backend" -- start
               pm2 startup
               pm2 save
             fi
