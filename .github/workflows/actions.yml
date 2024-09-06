@@ -36,7 +36,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             mkdir -p /home/tishan/apps/SaveConnects
-            cd /home/apps/SaveConnects
+            cd /home/tishan/apps/SaveConnects
 
             # Pull the latest Docker image
             docker-compose pull backend
