@@ -8,14 +8,26 @@ on:
       - master
 
 jobs:
-  deploy_qa:
-    if: github.ref == 'refs/heads/develop-qa'
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Connect with VPS
+      - name: Build Docker image
+        run: |
+          docker build -t save-connects_be .
+
+      - name: Push Docker image to Docker Hub
+        env:
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+          DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+        run: |
+          echo $DOCKER_HUB_ACCESS_TOKEN | docker login -u $DOCKER_HUB_USERNAME --password-stdin
+          docker tag save-connects_be $DOCKER_HUB_USERNAME/save-connects_be:latest
+          docker push $DOCKER_HUB_USERNAME/save-connects_be:latest
+
+      - name: Connect with VPS and deploy
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
@@ -23,27 +35,19 @@ jobs:
           key: ${{ secrets.PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            mkdir -p /home/tishan/apps/save-connects/backend
-            cd /home/tishan/apps/save-connects/backend
+            mkdir -p /home/tishan/apps/SaveConnects
+            cd /home/tishan/apps/SaveConnects
 
-            if [ -d ".git" ]; then
-              git reset --hard HEAD
-              git pull origin develop-qa
-            else
-              git clone -b develop-qa https://github.com/HashBaze/SaveConnects-BE.git .
-            fi
+            echo "Stopping backend container..."
+            docker-compose stop backend
 
-            npm install --force
-            npm run build
+            echo "Pulling latest backend Docker image..."
+            docker-compose pull backend
 
-            pid=$(pm2 pid "save-connects backend" 2>/dev/null)
-            if [ -n "$pid" ]; then
-              echo "Reloading application"
-              pm2 reload "save-connects backend"
-              pm2 save
-            else
-              echo "New application"
-              pm2 start npm --name "save-connects backend" -- start
-              pm2 startup
-              pm2 save
-            fi
+            echo "Restarting the backend service..."
+            docker-compose up -d backend
+
+            echo "Cleaning up unused Docker images..."
+            docker image prune -f
+
+            echo "Deployment successful."
