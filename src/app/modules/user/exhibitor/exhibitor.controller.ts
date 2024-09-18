@@ -175,7 +175,7 @@ export const editExhibitorCoverImage = async (req: Request, res: Response) => {
 // Add gallery image
 export const addGalleryImage = async (req: Request, res: Response) => {
   try {
-    const { _id, image } = req.body;
+    const { _id, images } = req.body;
 
     // Check if the exhibitor exists
     const exhibitor = await findExhibitor({ _id: _id });
@@ -186,7 +186,7 @@ export const addGalleryImage = async (req: Request, res: Response) => {
     }
 
     const isUpdate = await updateExhibitor(exhibitor, {
-      gallery: [...exhibitor.gallery, image],
+      gallery: [...exhibitor.gallery, ...images],
     });
     if (!isUpdate) {
       return res.status(500).json({
