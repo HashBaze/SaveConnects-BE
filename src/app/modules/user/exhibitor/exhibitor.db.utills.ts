@@ -94,4 +94,18 @@ const updateExhibitor = async (
   }
 };
 
-export { createExhibitor, findExhibitor, updateExhibitor, findAllExhibitors };
+// update Exhibuter Galerry
+const updateExhibitorGallery = async (
+  exhibitor: IExhibitor,
+  gallery: string[]
+): Promise<boolean> => {
+  try {
+    await Exhibitor.updateOne({ _id: exhibitor._id }, { $set: { gallery } });
+    return true;
+  } catch (error) {
+    console.error("Error updating exhibitor gallery(exhibitor.repo)-->:", error);
+    return false;
+  }
+};
+
+export { createExhibitor, findExhibitor, updateExhibitor, findAllExhibitors ,updateExhibitorGallery };

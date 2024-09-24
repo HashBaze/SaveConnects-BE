@@ -10,6 +10,7 @@ import {
   editAttendee,
   deleteAttendee,
   checkCompanyNameKey,
+  editGalleryList,
 } from "./exhibitor.controller";
 
 import verifyUserToken from "../../../../middleware/user.verify";
@@ -26,5 +27,6 @@ exhibitorRouter.post("/add-attendee", verifyUserToken, addAttendee);
 exhibitorRouter.put("/edit-attendee", verifyUserToken, editAttendee);
 exhibitorRouter.delete("/delete-attendee", verifyUserToken, deleteAttendee);
 exhibitorRouter.post("/check-company-name-key", checkCompanyNameKey);
+exhibitorRouter.put("/edit-gallery-list", verifyUserToken, editGalleryList);
 
 export default exhibitorRouter;
