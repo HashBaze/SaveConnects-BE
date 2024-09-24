@@ -4,6 +4,7 @@ import {
   createExhibitor,
   findExhibitor,
   updateExhibitor,
+  updateExhibitorGallery
 } from "./exhibitor.db.utills";
 import { IAttendee, IExhibitor } from "./exhibitor.interface";
 import { sendAttendeeRegistrationEmail } from "../../../../mail/mail.send";
@@ -383,6 +384,39 @@ export const checkCompanyNameKey = async (req: Request, res: Response) => {
     });
   } catch (error: any) {
     console.error("Error while checking company name key -->", error);
+    return res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+// Edit gallery list
+export const editGalleryList = async (req: Request, res: Response) => {
+  try {
+    const { _id, images } = req.body;
+
+    // Check if the exhibitor exists
+    const exhibitor = await findExhibitor({ _id: _id });
+    if (!exhibitor) {
+      return res.status(404).json({
+        message: "Exhibitor not found",
+      });
+    }
+
+    // Update the gallery list
+    const isUpdate = await updateExhibitorGallery(exhibitor, images);
+    if (!isUpdate) {
+      return res.status(500).json({
+        message: "Error while editing gallery list",
+      });
+    }
+
+    return res.status(200).json({
+      message: "Gallery list updated successfully",
+    });
+
+  } catch (error: any) {
+    console.error("Error while editing gallery list -->", error);
     return res.status(500).json({
       message: error.message,
     });
