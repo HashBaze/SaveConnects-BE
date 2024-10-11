@@ -12,7 +12,7 @@ import cors from "cors";
 
 app.use(
   cors({
-    origin: true,
+    origin: "https://www.saveconnects.com",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
