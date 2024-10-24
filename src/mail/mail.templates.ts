@@ -81,7 +81,7 @@ export const ATTENDEE_REGISTRATION_TEMPLATE = (exhibitor: IExhibitor) => `
   </div>
   <div style="background-color: #f9f9f9; padding: 20px; border-radius: 0 0 5px 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
     <p>Hello,</p>
-    <p>Thank you for registering for our event! We are excited to have you with us.</p>
+    <p>Thank you for visiting and registering at our stall.</p>
     <p>Below are the contact details for the exhibitor:</p>
     <div style="overflow-x: auto;">
       <table style="width: 100%; margin-bottom: 20px;">
@@ -107,7 +107,7 @@ export const ATTENDEE_REGISTRATION_TEMPLATE = (exhibitor: IExhibitor) => `
         </tr>
       </table>
     </div>
-    <p>We look forward to our company's growth and success.</p>
+    <p>A member of our team will be reaching out to you soon.</p>
     <p>Best regards,<br>${exhibitor.companyName} Team</p>
   </div>
   <div style="text-align: center; margin-top: 20px; color: #888; font-size: 0.8em;">
