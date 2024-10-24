@@ -42,9 +42,12 @@ export const sendPasswordResetSuccessEmail = async (email: string) => {
     console.error(`Error sending password reset success email:`, error);
     throw new Error(`Error sending password reset success email: ${error}`);
   }
-}
+};
 
-export const sendAttendeeRegistrationEmail = async (email: string, exhibitor: IExhibitor) => {
+export const sendAttendeeRegistrationEmail = async (
+  email: string,
+  exhibitor: IExhibitor
+) => {
   const mailOptions = {
     from: `"${exhibitor.companyName}" <${exhibitor.email}>`,
     to: email,
@@ -56,14 +59,24 @@ export const sendAttendeeRegistrationEmail = async (email: string, exhibitor: IE
     await transporter.sendMail(mailOptions);
     console.log(`Attendee registration email sent to ${email}`);
   } catch (error) {
-    console.error(`Error sending attendee registration email to ${email}:`, error);
+    console.error(
+      `Error sending attendee registration email to ${email}:`,
+      error
+    );
     throw new Error(`Error sending attendee registration email: ${error}`);
   }
 };
 
-export const inquiryEmail = async (from: string, to: string, name: string, message: string) => {
+export const inquiryEmail = async (
+  from: string,
+  to: string,
+  name: string,
+  message: string
+) => {
+  console.log(from);
   const mailOptions = {
     from: `"${name}" <${from}>`,
+    replyTo: from,
     to: to,
     subject: "New Inquiry",
     html: INQUIRY_EMAIL_TEMPLATE(name, message, from),
@@ -76,4 +89,4 @@ export const inquiryEmail = async (from: string, to: string, name: string, messa
     console.error(`Error sending inquiry email:`, error);
     throw new Error(`Error sending inquiry email: ${error}`);
   }
-}
+};
