@@ -90,6 +90,11 @@ const ExhibitorSchema = new Schema<IExhibitor>(
       type: Boolean,
       default: true,
     },
+    designation: {
+      type: String,
+      default: "",
+      trim: true,
+    }, 
   },
 );
 
