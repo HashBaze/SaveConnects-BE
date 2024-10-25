@@ -105,7 +105,9 @@ export const editExhibitorProfile = async (req: Request, res: Response) => {
       address,
       website,
       about,
+      designation,
     } = req.body;
+
 
     // Check if the exhibitor exists
     const exhibitor = await findExhibitor({ _id: _id });
@@ -123,6 +125,7 @@ export const editExhibitorProfile = async (req: Request, res: Response) => {
       address: address,
       website: website,
       about: about,
+      designation: designation,
     });
     if (!isUpdate) {
       return res.status(500).json({

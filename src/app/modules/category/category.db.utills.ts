@@ -34,10 +34,59 @@ const findCategory = async (
 
 // find all categories
 const findAllCategories = async (): Promise<ICategory[] | null> => {
+
+  const categories = [
+    {
+      _id: "1",
+      name: "Software",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      _id: "2",
+      name: "Electronics",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      _id: "3",
+      name: "Agri",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      _id: "4",
+      name: "manufacturing",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      _id: "5",
+      name: "engineering",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },{
+      _id: "6",
+      name: "construction",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },{
+      _id: "7",
+      name: "health",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },{
+      _id: "8",
+      name: "packaging",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }
+  ] as ICategory[];
+
   try {
-    const categories = (await Category.find().select(
-      "-__v -createdAt -updatedAt"
-    )) as ICategory[] | null;
+    // const categories = (await Category.find().select(
+    //   "-__v -createdAt -updatedAt"
+    // )) as ICategory[] | null;
     return categories;
   } catch (error) {
     console.error("Error finding categories--->", error);
