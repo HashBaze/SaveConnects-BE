@@ -23,4 +23,5 @@ export interface IExhibitor extends IUser {
   gallery: string[];
   attendees: IAttendee[];
   isEnabled: boolean;
+  designation: string;
 }
