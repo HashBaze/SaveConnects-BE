@@ -8,6 +8,7 @@ import {
 } from "./exhibitor.db.utills";
 import { IAttendee, IExhibitor } from "./exhibitor.interface";
 import { sendAttendeeRegistrationEmail } from "../../../../mail/mail.send";
+import { findAllEmailRecords } from "../../../../mail/mail.db.utills";
 
 require("dotenv").config();
 
@@ -422,3 +423,32 @@ export const editGalleryList = async (req: Request, res: Response) => {
     });
   }
 };
+
+// Rank users
+
+export async function rankUsers(req: Request, res: Response){
+  try{
+      const users = await findAllEmailRecords();
+      if (!users || users.length ===0){
+        return {
+          statusCode: 404,
+          message: "No users found"
+        };        
+      }else{
+        const rank_users = users.sort((a,b) => b.score - a.score);
+        const rankScore = rank_users.map(user => ({
+          Name: user.Name,
+          Score: user.score,
+          Email: user.email
+        }));
+        
+        return res.status(200).json(rankScore);
+      }    
+  }catch(error){
+    console.error("Error:", error);
+    return {
+      statusCode: 500,
+      message: "Internal Server Error"
+    };
+  }
+}

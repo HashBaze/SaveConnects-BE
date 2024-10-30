@@ -11,6 +11,7 @@ import {
   deleteAttendee,
   checkCompanyNameKey,
   editGalleryList,
+  rankUsers,
 } from "./exhibitor.controller";
 
 import verifyUserToken from "../../../../middleware/user.verify";
@@ -28,5 +29,6 @@ exhibitorRouter.put("/edit-attendee", verifyUserToken, editAttendee);
 exhibitorRouter.delete("/delete-attendee", verifyUserToken, deleteAttendee);
 exhibitorRouter.post("/check-company-name-key", checkCompanyNameKey);
 exhibitorRouter.put("/edit-gallery-list", verifyUserToken, editGalleryList);
+exhibitorRouter.get("/ranked-email-recods",rankUsers);
 
 export default exhibitorRouter;
